@@ -1,6 +1,6 @@
 // src/config/queue.ts
 import { Queue, QueueEvents } from 'bullmq';
-import { getRedisClient } from './redis';
+import redisConnection from './redis';
 
 export const ASSESSMENT_QUEUE = 'assessment-generation';
 
@@ -10,7 +10,7 @@ let queueEvents: QueueEvents | null = null;
 export function getAssessmentQueue(): Queue {
   if (assessmentQueue) return assessmentQueue;
 
-  const connection = getRedisClient() as any;
+  const connection = redisConnection as any;
 
   assessmentQueue = new Queue(ASSESSMENT_QUEUE, {
     connection,
